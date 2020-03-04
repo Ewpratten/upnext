@@ -25,7 +25,7 @@ public class NextMatch {
 
     /* Unit Testing */
     protected boolean test = false;
-    protected String testResponse = "@nextmatchbot, [2020onto1] Team 5024 will be playing in match f2, predicted to start at Wed 12:21 ";
+    protected String testResponse = "@nextmatchbot, [2020onto1] Team 5024 will be playing in match f2, predicted to start at Wed 14:21 ";
 
 
     public static void main(String[] args) {
@@ -60,7 +60,6 @@ public class NextMatch {
     private boolean hasMatch;
     private String matchStr;
     private MatchTimeType timeType;
-    private Date matchDate;
     private String eventCode;
     private int[] timeHM = new int[]{0,0};
 
@@ -84,7 +83,6 @@ public class NextMatch {
         // Clear all internal data
         matchStr = "";
         timeType = null;
-        matchDate = null;
         eventCode = "";
 
         SimpleLogger.log("NextMatch", String.format("Refreshing with test mode set to: %b", test));
@@ -148,10 +146,18 @@ public class NextMatch {
     }
 
     public int[] getTime() {
-        int[] output= new int[]{0,0};
+        int[] output= timeHM;
+
+        // Current time
+        String[] time = new SimpleDateFormat("HH:mm").format(new Date()).split(":");
 
         // Calc diff in hours
+        int currentHours = Integer.parseInt(time[0]);
+        int currentMins = Integer.parseInt(time[1]);
 
+        // Diff
+        output[0] -= currentHours;
+        output[1] = Math.abs((output[1]-currentMins)%60);
 
         return output;
     }
