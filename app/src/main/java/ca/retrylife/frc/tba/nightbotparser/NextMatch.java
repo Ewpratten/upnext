@@ -24,7 +24,7 @@ public class NextMatch {
             .format("@%s, \\[(.*)] Team (.*) will be playing in match (.*), (.*) to start at .* ([0-9]*):([0-9]*).*", TWITCH_USERNAME));
 
     /* Unit Testing */
-    protected boolean test = false;
+    public boolean test = false;
     protected String testResponse = "@nextmatchbot, [2020onto1] Team 5024 will be playing in match f2, predicted to start at Wed 14:21 ";
 
 
@@ -57,7 +57,7 @@ public class NextMatch {
 
     /* Match Data */
     private int team;
-    private boolean hasMatch;
+    private boolean hasMatch = false;
     private String matchStr;
     private MatchTimeType timeType;
     private String eventCode;
@@ -75,7 +75,7 @@ public class NextMatch {
         }
 
         // Refresh request to nightbot api
-        refresh();
+//        refresh();
     }
 
     public void refresh() {
@@ -111,6 +111,8 @@ public class NextMatch {
 
             hasMatch = true;
 
+            SimpleLogger.log("NextMatch", "Got response: "+ parsed);
+
             // Parse out data
             Matcher m = PARSER_PATTERN.matcher(parsed);
             if (m.matches()) {
@@ -120,6 +122,8 @@ public class NextMatch {
 
                 timeHM[0] = Integer.parseInt(m.group(5));
                 timeHM[1] = Integer.parseInt(m.group(6));
+            }else{
+                hasMatch = false;
             }
         } catch (IOException e) {
             hasMatch = false;

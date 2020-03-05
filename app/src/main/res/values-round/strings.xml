@@ -1,3 +1,5 @@
 <resources>
     <string name="hello_world">Hello Round World!</string>
+    <string name="match_time_to_play">0:05</string>
+    <string name="match_next_code">qf777</string>
 </resources>
